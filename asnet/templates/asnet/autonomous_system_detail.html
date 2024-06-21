@@ -1,0 +1,82 @@
+<!-- autonomous_system_detail.html -->
+{% extends "asnet/base.html" %}
+
+{% block details %}
+    <h5 class="card-title">Provider: {{ object.name }}</h5>
+    <p class="card-text mb-2">
+        <strong>ASN:</strong> {{ object.asn }}
+    </p>
+    <p class="card-text mb-2">
+        <strong>Description:</strong> {{ object.description }}
+    </p>
+    <p class="card-text mb-2">
+        <strong>Hosts:</strong> {{ object.get_ip_hosts_number }}
+    </p>
+    <p class="card-text mb-2">
+        <strong>Published:</strong> {{ object.published|date:"F d, Y H:i" }}
+    </p>
+{% endblock %}
+
+{% block actions %}
+    <div class="col"><a href="{% url 'asnet:asn_scan' object.pk %}" class="btn btn-primary">Rescan
+        ASN</a><br>
+    </div>
+    <div class="col"><a href="{% url 'asnet:asn_scan' object.pk %}" class="btn btn-primary">Update
+        ASN</a><br>
+    </div>
+    <div class="col"><a href="{% url 'asnet:asn_scan' object.pk %}" class="btn btn-primary">Delete
+        ASN</a><br>
+    </div>
+    <div class="col"><a href="{% url 'asnet:asn_scan' object.pk %}" class="btn btn-primary">Attack
+        ASN</a><br>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">CIDR</th>
+            <th scope="col">Scanned</th>
+            <th scope="col">Hosts</th>
+            <th scope="col">Published</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for cidr in object.cidr_blocks.all %}
+            <tr>
+                <td>
+                    <a href="{% url 'asnet:cidr_detail' cidr.id %}">{{ cidr.cidr }}</a>
+                </td>
+
+                <td>
+                    {% if cidr.is_scanned %}
+                        <span class="text-success">✔️</span>
+                        <!-- or use an icon from a library like FontAwesome -->
+                    {% else %}
+                        <span class="text-danger">❌</span>
+                    {% endif %}
+                </td>
+
+
+                <td>
+                    {{ cidr.live_hosts_in_cidr }}
+                </td>
+                <td>{{ cidr.published|date:"Y-m-d H:i" }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4">No CIDR Blocks were found.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+    </div>
+
+    {#        </div>#}
+    {#    </div>#}
+{% endblock %}

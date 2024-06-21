@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>{% block title %}GUR8{% endblock %}</title>
+    {% load static %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-dark-5@1.1.3/dist/css/bootstrap-nightshade.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'admin/css/dark_mode.css' %}">
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'img/site.webmanifest' %}">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <img src={% static 'img/favicon-32x32.png' %}>
+    <a class="navbar-brand" href="{% url 'asnet:index' %}">GUR8</a>
+
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'asnet:index' %}">Home</a>
+            </li>
+            <!-- Add other navigation links here -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'asnet:asn_list_view' %}">ASN</a>
+            </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'asnet:web_domain_list' %}">Web</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">OSINT</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Recon</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Vulns</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Exploits</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Attack</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Brutforce</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">DDOS</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Pigdogs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Targets</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+{#{% if messages %}#}
+{#    <div class="container mt-3">#}
+{#        {% for message in messages %}#}
+{#            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">#}
+{#                {{ message }}#}
+{#                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{#    </div>#}
+{#{% endif %}#}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="row row-cols-auto">
+                    <div class="card-body">
+                        {% block details %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card ">
+                {#                <div class="card-body">#}
+                {#                    <h5 class="card-title">Actions</h5>#}
+                {#                </div>#}
+                {#                    <div class="container">#}
+                <div class="row row-cols-auto">
+                    {#                    <div class="card-body">#}
+                    {% block actions %}
+                    {% endblock %}
+                    {#                    </div>#}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    {% block content %}
+        <!-- Content goes here -->
+    {% endblock %}
+</div>
+
+<div class="container-sm">
+    {% if messages %}
+        <div class="container">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                            aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% block asns %}
+        <!-- Content goes here -->
+    {% endblock %}
+</div>
+
+<footer class="footer bg-light">
+    <div class="container text-center">
+        <span class="text-muted">GUR8 Project©</span>
+    </div>
+</footer>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+{#<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>#}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-dark-5@1.1.3/dist/js/darkmode.min.js"></script>
+</body>
+</html>

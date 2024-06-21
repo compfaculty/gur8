@@ -1,0 +1,18 @@
+{% extends "asnet/base.html" %}
+
+{% block content %}
+
+    {% if ip_hosts %}
+        <ul class="list-group text-success">
+            {% for ip in ip_hosts %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{% url 'asnet:ip_host_detail' ip.id %}" class="stretched-link">
+                        {{ ip.ip }} - {{ ip.name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No IP targets are available.</p>
+    {% endif %}
+{% endblock %}

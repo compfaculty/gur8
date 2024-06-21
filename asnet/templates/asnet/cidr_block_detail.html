@@ -1,0 +1,79 @@
+<!-- autonomous_system_detail.html -->
+{% extends "asnet/base.html" %}
+
+{% block details %}
+     <h3 class="card-title">{{ object.cidr }}</h3>
+            <p class="card-text">
+                <strong>ASN:</strong> {{ object.autonomous_system }}<br>
+                <strong>Published:</strong> {{ object.published|date:"F d, Y H:i" }}<br>
+            </p>
+{% endblock %}
+
+{% block actions %}
+     <div class="col"><a href="{% url 'asnet:cidr_scan' object.pk %}" class="btn btn-primary">Rescan
+        CIDR</a><br>
+    </div>
+    <div class="col"><a href="{% url 'asnet:cidr_scan' object.pk %}" class="btn btn-primary">Update
+        CIDR</a><br>
+    </div>
+    <div class="col"><a href="{% url 'asnet:cidr_scan' object.pk %}" class="btn btn-primary">Delete
+        CIDR</a><br>
+    </div>
+    <div class="col"><a href="{% url 'asnet:cidr_scan' object.pk %}" class="btn btn-primary">Attack
+        CIDR</a><br>
+    </div>
+{% endblock %}
+{% block content %}
+{##}
+    {#    <div class="container-xxl">#}
+{#    <h1>CIDR Block Details</h1>#}
+{#    <div class="card text-success" style="width: 100%;">#}
+{#        <div class="card-body">#}
+{#            <h3 class="card-title">{{ object.cidr }}</h3>#}
+{#            <p class="card-text">#}
+{#                <strong>ASN:</strong> {{ object.autonomous_system }}<br>#}
+{#                <strong>Published:</strong> {{ object.published|date:"F d, Y H:i" }}<br>#}
+{#            </p>#}
+
+            <table class="table table-hover table-bordered" style="width: 100%;">
+                <thead>
+                <tr>
+                    <th scope="col">IP Address</th>
+                    <th scope="col">Services</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Published</th>
+                    <th scope="col">Last Scanned</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for ip in object.ip_hosts.all %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'asnet:ip_host_detail' ip.id %}">{{ ip.ip }}</a>
+                        </td>
+                        <td>
+                            <ul class="list-group-flush">
+                                {% for port, info in ip.get_services_short_info.items %}
+                                    <li>Port {{ port }}: {{ info }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>{{ ip.description }}</td>
+                        <td>{{ ip.published|date:"Y-m-d H:i" }}</td>
+                        <td>{{ ip.last_scanned|date:"Y-m-d H:i" }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">No IP Addresses found.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+{##}
+{##}
+{#        </div>#}
+{#        <a href="{% url 'asnet:cidr_scan' object.pk %}" class="btn btn-primary">Scan CIDR</a><br>#}
+{#    </div>#}
+    {#    </div>#}
+{% endblock %}

@@ -12,6 +12,8 @@ SECRET_KEY = 'django-insecure-)25vx%bjpm0gj1b8^=r#k5rixarein^&3##)^^&=t4c9de1%hd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Update CSRF_TRUSTED_ORIGINS setting
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000']
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
 
 # Application definition
@@ -24,6 +26,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'gur.apps.GurConfig',
+    # 'django_dramatiq',
+    'taggit',
     'asnet'
 ]
 

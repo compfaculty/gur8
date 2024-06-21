@@ -1,0 +1,57 @@
+{% extends "asnet/base.html" %}
+
+{% block details %}
+    <strong>Number of ASN Discovered:</strong> {{ asn_list.count }}
+    {#    <strong>Published:</strong> {{ object.published|date:"F d, Y H:i" }}<br>#}
+
+{% endblock %}
+
+{% block actions %}
+    <div class="col"><a href="{% url 'asnet:asn_list_view' %}" class="btn btn-primary">Rescan
+        ASN</a><br>
+    </div>
+    <div class="col"><a href="{% url 'asnet:asn_list_view' %}" class="btn btn-primary">Update
+        ASN</a><br>
+    </div>
+    <div class="col"><a href="{% url 'asnet:asn_list_view' %}" class="btn btn-primary">Delete
+        ASN</a><br>
+    </div>
+    <div class="col"><a href="{% url 'asnet:asn_list_view' %}" class="btn btn-primary">Attack
+        ASN</a><br>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {#    <div class="card">#}
+    {#        <div class="card-body">#}
+    {% if asn_list %}
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">CIDRs Total</th>
+                <th scope="col">CIDRs Scanned</th>
+                <th scope="col">Hosts found</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for asn in asn_list %}
+                <tr>
+                    <td>
+                        <a href="{% url 'asnet:asn_detail' asn.id %}" class="link-success">
+                            AS{{ asn.asn }} - {{ asn.name }}
+                        </a>
+                    </td>
+                    <td>{{ asn.get_cidr_blocks_number }}</td>
+                    <td>{{ asn.get_scanned_cidr_blocks_number }}</td>
+                    <td>{{ asn.get_ip_hosts_number }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No ASNs are available.</p>
+    {% endif %}
+    {#        </div>#}
+    {#    </div>#}
+{% endblock %}

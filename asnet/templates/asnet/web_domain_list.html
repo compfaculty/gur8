@@ -1,0 +1,76 @@
+{% extends "asnet/base.html" %}
+
+{% block details %}
+    <strong>Number of Web Domains Discovered:</strong> {{ web_domains.count }}
+    {#    <strong>Published:</strong> {{ object.published|date:"F d, Y H:i" }}<br>#}
+
+{% endblock %}
+
+{% block actions %}
+    <div class="col"><a href="{% url 'asnet:web_domain_list' %}" class="btn btn-primary">Rescan
+        Domain</a><br>
+    </div>
+    <div class="col"><a href="{% url 'asnet:web_domain_list' %}" class="btn btn-primary">Update
+        Domain</a><br>
+    </div>
+    <div class="col"><a href="{% url 'asnet:web_domain_list' %}" class="btn btn-primary">Delete
+        Domain</a><br>
+    </div>
+    <div class="col"><a href="{% url 'asnet:web_domain_list' %}" class="btn btn-primary">Attack
+        Domain</a><br>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    {% if web_domains %}
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Url</th>
+                <th scope="col">Description</th>
+                <th scope="col">HTTP Title</th>
+                <th scope="col">Alive</th>
+                <th scope="col">Is Scanned</th>
+                <th scope="col">Published</th>
+                <th scope="col">Last Scanned</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for web_domain in web_domains %}
+                <tr>
+                    <td>
+                        <a href="{% url 'asnet:web_domain_detail' web_domain.id %}" class="link-success">
+                            {{ web_domain.url }}
+                        </a>
+                    </td>
+                    <td>{{ web_domain.description }}</td>
+                    <td>{{ web_domain.http_title }}</td>
+                    <td>
+                        {% if web_domain.is_alive %}
+                            <span class="text-success">✔️</span>
+                            <!-- or use an icon from a library like FontAwesome -->
+                        {% else %}
+                            <span class="text-danger">❌</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if web_domain.is_scanned %}
+                            <span class="text-success">✔️</span>
+                            <!-- or use an icon from a library like FontAwesome -->
+                        {% else %}
+                            <span class="text-danger">❌</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ web_domain.published|date:"F d, Y H:i" }}</td>
+                    <td>{{ web_domain.last_scanned|date:"F d, Y H:i" }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No Web Domains are available.</p>
+    {% endif %}
+    {#        </div>#}
+    {#    </div>#}
+{% endblock %}

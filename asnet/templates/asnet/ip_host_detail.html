@@ -1,0 +1,114 @@
+<!-- autonomous_system_detail.html -->
+{% extends "asnet/base.html" %}
+
+{% block details %}
+    <dl>
+        <dt><strong>CIDR:</strong></dt>
+        <dd>{{ object.cidr }}</dd>
+
+        <dt><strong>Description:</strong></dt>
+        <dd>{{ object.description }}</dd>
+
+
+        <dt><strong>Host Web Site:</strong></dt>
+        <dd>{{ object.host_domain }}</dd>
+
+        <dt><strong>Name:</strong></dt>
+        <dd>{{ object.name }}</dd>
+
+
+        <dt><strong>Published:</strong></dt>
+        <dd>{{ object.published|date:"F d, Y H:i" }}</dd>
+
+        <dt><strong>HTTP Title:</strong></dt>
+        <dd>{{ object.http_title }}</dd>
+
+        <dt><strong>HTTPS Title:</strong></dt>
+        <dd>{{ object.https_title }}</dd>
+
+        <dt><strong>Last Scanned:</strong></dt>
+        <dd>{{ object.last_scanned|date:"F d, Y H:i" }}</dd>
+    </dl>
+{% endblock %}
+
+{% block actions %}
+    <div class="col"><a href="{% url 'asnet:cidr_scan' object.pk %}" class="btn btn-primary">Rescan
+        IP</a><br>
+    </div>
+
+    <div class="col"><a href="{% url 'asnet:cidr_scan' object.pk %}" class="btn btn-primary">Update
+        IP</a><br>
+    </div>
+    <div class="col"><a href="{% url 'asnet:cidr_scan' object.pk %}" class="btn btn-primary">Delete
+        IP</a><br>
+    </div>
+    <div class="col"><a href="{% url 'asnet:cidr_scan' object.pk %}" class="btn btn-primary">Attack
+        IP</a><br>
+    </div>
+    <!-- scan_ip_host.html -->
+    <form method="post" action="{% url 'asnet:ip_host_scan' pk=object.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Start Scans</button>
+    </form>
+{% endblock %}
+
+{% block content %}
+
+    {% if object.services.all %}
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">Protocol</th>
+                <th scope="col">Port</th>
+                <th scope="col">Product</th>
+                <th scope="col">Version</th>
+                <th scope="col">Extra Info</th>
+                <th scope="col">Conf</th>
+                {#                <th scope="col">CPE</th>#}
+                <th scope="col">Header</th>
+                <th scope="col">Title</th>
+                <th scope="col">Favicon</th>
+                <th scope="col">Robots</th>
+                <th scope="col">Methods</th>
+                <th scope="col">Cookies</th>
+                <th scope="col">Fingerprint</th>
+                <th scope="col">SSL Date</th>
+                <th scope="col">SSL Hostkey</th>
+                <th scope="col">SSL Cert</th>
+                <th scope="col">TLS ALPN</th>
+                <th scope="col">Published</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for service in object.services.all %}
+                <tr class="text-success">
+                    <td>{{ service.name }}</td>
+                    <td>{{ service.port }}</td>
+                    <td>{{ service.product }}</td>
+                    <td>{{ service.version }}</td>
+                    <td>{{ service.extrainfo }}</td>
+                    <td>{{ service.conf }}</td>
+                    {#                    <td>{{ service.cpe }}</td>#}
+                    <td>{{ service.http_server_header }}</td>
+                    <td>{{ service.http_title }}</td>
+                    <td>{{ service.http_favicon }}</td>
+                    <td>{{ service.http_robots }}</td>
+                    <td>{{ service.http_methods }}</td>
+                    <td>{{ service.http_cookie_flags }}</td>
+                    <td>{{ service.fingerprint_strings }}</td>
+                    <td>{{ service.ssl_date }}</td>
+                    <td>{{ service.ssl_hostkey }}</td>
+                    <td>{{ service.ssl_cert }}</td>
+                    <td>{{ service.tls_alpn }}</td>
+                    <td>{{ service.published|date:"F d, Y H:i" }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No services available.</p>
+    {% endif %}
+
+
+{% endblock %}
